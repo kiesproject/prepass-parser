@@ -13,11 +13,6 @@ import csv
 def parse_date(text):
     return datetime.datetime(*eut.parsedate(text)[:6])
 
-def create_last_update_json(date):
-    last_update_json = open('last-update.json', 'w')
-    last_update_json.write(json.dumps({'last_update': date.strftime("%Y-%m-%dT%H:%M:%S%z")}, ensure_ascii=False))
-    last_update_json.close()
-
 
 def load_data(url, exclude):
     r = requests.get(url)
@@ -25,9 +20,6 @@ def load_data(url, exclude):
     update = parse_date(r.headers["Last-Modified"])
     update = pytz.timezone('UTC').localize(update)
     update = update.astimezone(pytz.timezone('Asia/Tokyo'))
-
-    # 最終更新日時を表すjsonを生成
-    create_last_update_json(update)
 
     # 文字エンコーディングの変更
     r.encoding = r.apparent_encoding
@@ -64,6 +56,10 @@ def generate_genres(genre_list):
 def load_prepass_data(base_url):
     prepass, update = load_data(base_url + "csv/openData_prepass.csv", r'プレミアム・パスポート　事業協賛店一覧,,\d{8} \n')
     baby, _ = load_data(base_url + "csv/openData_baby.csv", r'「赤ちゃんの駅」　登録施設一覧,,\d{8} \n')
+
+    last_update_json = open('last-update.json', 'w')
+    last_update_json.write(json.dumps({'prepass': update.strftime("%Y-%m-%dT%H:%M:%S%z")}, ensure_ascii=False))
+    last_update_json.close()
 
     baby_ids = [[int(i["企業ID"].replace("co", "")), int(i["店舗ID"].replace("ofid", ""))] for i in baby]
 
