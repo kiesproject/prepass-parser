@@ -13,6 +13,11 @@ import csv
 def parse_date(text):
     return datetime.datetime(*eut.parsedate(text)[:6])
 
+def create_last_update_json(date):
+    last_update_json = open('last-update.json', 'w')
+    last_update_json.write(json.dumps({'last_update': date.strftime("%Y-%m-%dT%H:%M:%S%z")}, ensure_ascii=False))
+    last_update_json.close()
+
 
 def load_data(url, exclude):
     r = requests.get(url)
@@ -20,6 +25,9 @@ def load_data(url, exclude):
     update = parse_date(r.headers["Last-Modified"])
     update = pytz.timezone('UTC').localize(update)
     update = update.astimezone(pytz.timezone('Asia/Tokyo'))
+
+    # 最終更新日時を表すjsonを生成
+    create_last_update_json(update)
 
     # 文字エンコーディングの変更
     r.encoding = r.apparent_encoding
