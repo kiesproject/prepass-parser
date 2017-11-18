@@ -58,7 +58,7 @@ def load_prepass_data(base_url):
     baby, _ = load_data(base_url + "csv/openData_baby.csv", r'「赤ちゃんの駅」　登録施設一覧,,\d{8} \n')
 
     last_update_json = open('last-update.json', 'w')
-    last_update_json.write(json.dumps({'prepass': update.strftime("%Y-%m-%dT%H:%M:%S%z")}, ensure_ascii=False))
+    last_update_json.write(json.dumps({'prepass': update.strftime("%Y-%m-%dT%H:%M:%S%z")}, ensure_ascii=False, indent=2))
     last_update_json.close()
 
     baby_ids = [[int(i["企業ID"].replace("co", "")), int(i["店舗ID"].replace("ofid", ""))] for i in baby]
