@@ -9,6 +9,7 @@ import requests
 import unicodedata
 import csv
 
+genre_data = json.load(open("genre_data.json", "r"))
 
 def parse_date(text):
     return datetime.datetime(*eut.parsedate(text)[:6])
@@ -36,8 +37,6 @@ def load_data(url, exclude):
 def generate_genres(genre_list):
     if 'その他' in genre_list:
         genre_list.remove('その他')
-
-    genre_data = json.load(open("genre_data.json", "r"))
 
     genres = []
     for i in genre_list:
