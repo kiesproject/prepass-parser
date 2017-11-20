@@ -49,7 +49,7 @@ def generate_genres(genre_list):
                     }
                 ))
                 break
-    return genres
+    return sorted(genres, key=lambda big_genre: big_genre['genre'])
 
 
 def load_prepass_data(base_url):
@@ -122,4 +122,4 @@ def load_prepass_data(base_url):
         data["last_update"] = update.strftime("%Y-%m-%dT%H:%M:%S%z")
 
         data_list.append(data)
-    return data_list
+    return sorted(data_list, key=lambda shop_id: shop_id['company_id'])
