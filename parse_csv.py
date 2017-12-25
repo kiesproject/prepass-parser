@@ -72,8 +72,12 @@ def load_prepass_data(base_url):
         data["address"] = row["住所"]
         data["building_address"] = row["住所建物"]
 
-        lat = float(row["緯度"])
-        lon = float(row["経度"])
+        if row["緯度"] == "" and row["緯度"] == "":
+            lat = None
+            lon = None
+        else:
+            lat = float(row["緯度"])
+            lon = float(row["経度"])
 
         # 金沢アピタの"CABINE（キャビーヌ）"の位置情報がおかしい
         if data["company_id"] == 267607:
