@@ -119,7 +119,5 @@ def load_prepass_data(base_url):
             )
         )
 
-        data["last_update"] = update.strftime("%Y-%m-%dT%H:%M:%S%z")
-
         data_list.append(data)
     return sorted(data_list, key=lambda shop_id: shop_id['company_id'])
