@@ -3,6 +3,7 @@
 
 import json
 import sys
+
 from parse_csv import load_prepass_data
 
 base_url = "http://www.i-oyacomi.net/prepass/"
